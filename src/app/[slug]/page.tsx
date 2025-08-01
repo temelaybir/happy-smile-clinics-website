@@ -8,7 +8,7 @@ import FAQ from "@/components/sections/faq"
 import ContactFormPopup from "@/components/ui/contact-form-popup"
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
-import { ArrowRight, Loader2, MessageCircle, Mail } from 'lucide-react'
+import { ArrowRight, Loader2 } from 'lucide-react'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import SectionButtons from '@/components/SectionButtons'

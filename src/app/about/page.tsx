@@ -5,7 +5,7 @@ import Footer from "@/components/sections/footer"
 import ContactFormPopup from "@/components/ui/contact-form-popup"
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
-import { ArrowRight, MessageCircle, Award, Clock, Users, Star, ChevronDown } from 'lucide-react'
+import { ArrowRight, MessageCircle, Award, Clock, Users, Star } from 'lucide-react'
 import Image from 'next/image'
 import { useRef, useEffect, useState } from 'react'
 import Link from 'next/link'
@@ -224,7 +224,7 @@ export default function AboutPage() {
                      textShadow: '0 1px 8px rgba(0,0,0,0.4)'
                    }}
                 >
-                  Since 2009, we've been transforming smiles and changing lives with our comprehensive approach to dental excellence.
+                  Since 2009, we&apos;ve been transforming smiles and changing lives with our comprehensive approach to dental excellence.
                 </p>
               </motion.div>
 
@@ -324,7 +324,7 @@ export default function AboutPage() {
                       Our team of internationally trained specialists is dedicated to providing personalized care that exceeds expectations. From simple treatments to complex full-mouth rehabilitations, we approach each case with precision and care.
                     </p>
                     <p>
-                      We believe everyone deserves a smile they can be proud of. That's why we've made it our mission to provide world-class dental care that's accessible to patients from around the globe.
+                      We believe everyone deserves a smile they can be proud of. That&apos;s why we&apos;ve made it our mission to provide world-class dental care that&apos;s accessible to patients from around the globe.
                     </p>
                   </div>
 
