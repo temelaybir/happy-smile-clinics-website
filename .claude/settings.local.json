@@ -1,0 +1,43 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(npm run build:*)",
+      "Bash(wget:*)",
+      "Bash(ls:*)",
+      "Bash(npm init:*)",
+      "Bash(mkdir:*)",
+      "Bash(npx prisma init:*)",
+      "WebFetch(domain:jamesblade.framer.website)",
+      "WebFetch(domain:reformstudio.framer.website)",
+      "WebFetch(domain:neutec-webflow-template.webflow.io)",
+      "WebFetch(domain:reeves.webflow.io)",
+      "Bash(cd:*)",
+      "Bash(cd:*)",
+      "Bash(grep:*)",
+      "Bash(cd:*)",
+      "Bash(rm:*)",
+      "Bash(npx prisma generate:*)",
+      "Bash(cd:*)",
+      "Bash(cd:*)",
+      "Bash(cd:*)",
+      "Bash(cd:*)",
+      "Bash(cd:*)",
+      "Bash(cd:*)",
+      "Bash(cd:*)",
+      "Bash(cd:*)",
+      "Bash(cd:*)",
+      "Bash(npx prisma:*)",
+      "Bash(node:*)",
+      "Bash(curl:*)",
+      "Bash(cd:*)",
+      "Bash(find:*)",
+      "WebFetch(domain:www.embla-carousel.com)",
+      "Bash(npx tsc:*)",
+      "Bash(npm run dev:*)",
+      "Bash(touch:*)",
+      "Bash(cat:*)"
+    ],
+    "deny": []
+  }
+}

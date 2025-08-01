@@ -1,0 +1,833 @@
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poiret+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Red+Hat+Text:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* English Language Settings */
+html {
+  lang: en;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  lang: en;
+}
+
+/* Force English uppercase rendering */
+.english-uppercase {
+  text-transform: uppercase;
+  font-variant-caps: all-small-caps;
+  -webkit-locale: "en-US";
+  locale: "en-US";
+}
+
+/* Hero Background Animation - Horizontal Scroll */
+@keyframes bgScrollHorizontal {  
+  from {
+    background-position: 0px center;
+  }
+  to {
+    background-position: 2000px center;
+  }
+}
+
+/* Normal scroll behavior */
+html {
+  overflow-x: hidden;
+  scroll-behavior: auto;
+}
+
+html.smooth-scroll {
+  scroll-behavior: smooth !important;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+/* Yatay Kayan Background Animation - Custom Image */
+.hero-background-slide-custom {
+  background-repeat: repeat-x;
+  -webkit-animation: bgScrollHorizontal 20s linear infinite;
+  animation: bgScrollHorizontal 20s linear infinite;
+  height: 100%;
+  background-size: auto 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  will-change: background-position;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* Fade In/Out Background Animation */
+.hero-background-fade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0;
+  animation: bgFade 8s ease-in-out infinite;
+}
+
+@keyframes bgFade {
+  0%, 100% {
+    opacity: 0;
+    transform: scale(1.1);
+  }
+  25%, 75% {
+    opacity: 0.4;
+    transform: scale(1.15);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.2);
+  }
+}
+
+/* Phone Input Styles */
+.PhoneInput {
+  display: flex;
+  align-items: center;
+  background: white;
+  border-radius: 6px;
+  height: 48px;
+  overflow: hidden;
+}
+
+.PhoneInputCountry {
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  border-right: 1px solid #e5e7eb;
+  background: #f9fafb;
+  height: 100%;
+  min-width: 80px;
+}
+
+.PhoneInputCountryIcon {
+  width: 20px;
+  height: 15px;
+  margin-right: 6px;
+  border-radius: 2px;
+}
+
+.PhoneInputCountrySelect {
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  color: #111827;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 2px;
+}
+
+.PhoneInputCountrySelect:hover {
+  background: #e5e7eb;
+  border-radius: 4px;
+}
+
+.PhoneInputCountrySelectArrow {
+  color: #6b7280;
+  margin-left: 4px;
+}
+
+.PhoneInputInput {
+  background: white;
+  border: 0;
+  outline: none;
+  flex: 1;
+  font-size: 16px;
+  padding: 0 16px;
+  color: #111827;
+  height: 100%;
+  font-weight: 300;
+}
+
+.PhoneInputInput::placeholder {
+  color: #6B7280;
+  font-weight: 300;
+}
+
+/* Dropdown menu styling */
+.PhoneInputCountrySelect__dropdown {
+  background: white;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.PhoneInputCountrySelect__option {
+  padding: 8px 12px;
+  color: #111827;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.PhoneInputCountrySelect__option:hover {
+  background: #f3f4f6;
+}
+
+.PhoneInputCountrySelect__option--selected {
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+/* Hide all countries except our selected ones and international */
+.PhoneInputCountrySelect__option {
+  display: none;
+}
+
+/* Show only UK, Malta, US, Turkey and International */
+.PhoneInputCountrySelect__option[data-country-calling-code="44"],
+.PhoneInputCountrySelect__option[data-country-calling-code="356"], 
+.PhoneInputCountrySelect__option[data-country-calling-code="1"],
+.PhoneInputCountrySelect__option[data-country-calling-code="90"],
+.PhoneInputCountrySelect__option[data-country-calling-code=""] {
+  display: block;
+}
+
+/* Force specific order using flexbox */
+.PhoneInputCountrySelect__dropdown {
+  display: flex;
+  flex-direction: column;
+}
+
+.PhoneInputCountrySelect__option[data-country-calling-code="44"] {
+  order: 1;
+}
+
+.PhoneInputCountrySelect__option[data-country-calling-code="356"] {
+  order: 2;
+}
+
+.PhoneInputCountrySelect__option[data-country-calling-code="1"] {
+  order: 3;
+}
+
+.PhoneInputCountrySelect__option[data-country-calling-code="90"] {
+  order: 4;
+}
+
+.PhoneInputCountrySelect__option[data-country-calling-code=""] {
+  order: 5;
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222.2 84% 4.9%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222.2 84% 4.9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
+  }
+
+  html {
+    @apply dark;
+  }
+
+  body {
+    @apply bg-black text-white;
+  }
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+
+/* Optimize animations for mobile */
+@media (max-width: 768px) {
+  /* Disable all animations on mobile for smooth scroll */
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  /* Re-enable only critical transitions */
+  button, a {
+    transition: opacity 0.2s ease !important;
+  }
+}
+
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #4ade80;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #22c55e;
+}
+
+/* Loading animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.8s ease-out;
+}
+
+/* Text selection */
+::selection {
+  background-color: #4ade80;
+  color: #000;
+}
+
+/* Focus styles */
+*:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(74, 222, 128, 0.5);
+}
+
+/* Gradient text animation */
+@keyframes gradient {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient 3s ease infinite;
+}
+
+/* Parallax container */
+.parallax-container {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Apple-style blur */
+.backdrop-blur-apple {
+  backdrop-filter: saturate(180%) blur(20px);
+  background-color: rgba(0, 0, 0, 0.72);
+}
+
+/* Custom animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-slideInLeft {
+  animation: slideInLeft 0.8s ease-out;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-slideInRight {
+  animation: slideInRight 0.8s ease-out;
+}
+
+/* Hover lift effect */
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Glow effect */
+.glow {
+  box-shadow: 0 0 20px rgba(74, 222, 128, 0.5);
+}
+
+/* Perspective for 3D effects */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.transform-3d {
+  transform-style: preserve-3d;
+}
+
+/* Noise texture overlay */
+.noise-overlay::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.03;
+  z-index: 1;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* Premium Gold Colors */
+.text-gold-400 {
+  color: #fbbf24;
+}
+
+.text-gold-500 {
+  color: #f59e0b;
+}
+
+.bg-gold-400 {
+  background-color: #fbbf24;
+}
+
+.bg-gold-500 {
+  background-color: #f59e0b;
+}
+
+.from-gold-400 {
+  --tw-gradient-from: #fbbf24;
+}
+
+.to-gold-500 {
+  --tw-gradient-to: #f59e0b;
+}
+
+/* Premium Dark Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #111;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #a855f7, #ec4899);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #9333ea, #db2777);
+}
+
+/* Premium Selection */
+::selection {
+  background-color: #a855f7;
+  color: #fff;
+}
+
+/* Premium Focus */
+*:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.5);
+}
+
+/* Rich Text Editor Placeholder */
+[contenteditable]:empty:before {
+  content: attr(data-placeholder);
+  color: #6b7280;
+  pointer-events: none;
+  display: block;
+}
+
+/* Rich Text Editor Focus */
+[contenteditable]:focus {
+  outline: none;
+}
+
+/* Admin Panel Specific Styles */
+.prose img {
+  display: inline-block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Dark Editor Styles */
+.prose.bg-gray-800 {
+  color: #e5e7eb;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-weight: 300;
+  line-height: 1.75;
+}
+
+.prose.bg-gray-800 h1,
+.prose.bg-gray-800 h2,
+.prose.bg-gray-800 h3,
+.prose.bg-gray-800 h4,
+.prose.bg-gray-800 h5,
+.prose.bg-gray-800 h6 {
+  color: #f3f4f6;
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.prose.bg-gray-800 h1 { font-size: 2rem; }
+.prose.bg-gray-800 h2 { font-size: 1.75rem; }
+.prose.bg-gray-800 h3 { font-size: 1.5rem; }
+.prose.bg-gray-800 h4 { font-size: 1.25rem; }
+
+.prose.bg-gray-800 p {
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  margin-bottom: 1.25rem;
+  line-height: 1.75;
+}
+
+.prose.bg-gray-800 strong {
+  color: #f3f4f6;
+  font-weight: 500;
+}
+
+.prose.bg-gray-800 a {
+  color: #60a5fa;
+  font-weight: 400;
+  text-decoration: none;
+}
+
+.prose.bg-gray-800 a:hover {
+  color: #93c5fd;
+  text-decoration: underline;
+}
+
+.prose.bg-gray-800 code {
+  color: #e5e7eb;
+  background-color: #374151;
+  font-family: 'Inter', monospace;
+  font-weight: 400;
+}
+
+.prose.bg-gray-800 blockquote {
+  border-left-color: #4b5563;
+  color: #d1d5db;
+  font-style: normal;
+  font-weight: 300;
+  quotes: none;
+}
+
+.prose.bg-gray-800 pre {
+  background-color: #1f2937;
+  color: #e5e7eb;
+  font-family: 'Inter', monospace;
+  font-weight: 400;
+}
+
+.prose.bg-gray-800 ul,
+.prose.bg-gray-800 ol {
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+}
+
+.prose.bg-gray-800 li {
+  margin-bottom: 0.5rem;
+}
+
+/* Font size controls */
+.prose.bg-gray-800 font[size="1"] {
+  font-size: 0.875rem;
+  font-weight: 300;
+}
+
+.prose.bg-gray-800 font[size="3"] {
+  font-size: 1rem;
+  font-weight: 300;
+}
+
+.prose.bg-gray-800 font[size="5"] {
+  font-size: 1.25rem;
+  font-weight: 300;
+}
+
+/* Dynamic Page Prose Styles */
+.prose-invert {
+  --tw-prose-body: #d1d5db;
+  --tw-prose-headings: #f9fafb;
+  --tw-prose-lead: #9ca3af;
+  --tw-prose-links: #60a5fa;
+  --tw-prose-bold: #f9fafb;
+  --tw-prose-counters: #9ca3af;
+  --tw-prose-bullets: #6b7280;
+  --tw-prose-hr: #374151;
+  --tw-prose-quotes: #f3f4f6;
+  --tw-prose-quote-borders: #6b7280;
+  --tw-prose-captions: #9ca3af;
+  --tw-prose-code: #f9fafb;
+  --tw-prose-pre-code: #d1d5db;
+  --tw-prose-pre-bg: #1f2937;
+  --tw-prose-th-borders: #4b5563;
+  --tw-prose-td-borders: #374151;
+  color: var(--tw-prose-body);
+  max-width: none;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-weight: 300;
+  line-height: 1.75;
+}
+
+.prose-invert h1,
+.prose-invert h2,
+.prose-invert h3,
+.prose-invert h4,
+.prose-invert h5,
+.prose-invert h6 {
+  color: var(--tw-prose-headings);
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.prose-invert p {
+  color: var(--tw-prose-body);
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+  margin-bottom: 1.25rem;
+  line-height: 1.75;
+}
+
+.prose-invert a {
+  color: var(--tw-prose-links);
+  font-weight: 400;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.prose-invert a:hover {
+  color: #93c5fd;
+  text-decoration: underline;
+}
+
+.prose-invert strong {
+  color: var(--tw-prose-bold);
+  font-weight: 500;
+}
+
+.prose-invert ul,
+.prose-invert ol {
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
+}
+
+.prose-invert li {
+  margin-bottom: 0.5rem;
+}
+
+/* Font size support for dynamic pages */
+.prose-invert font[size="1"] {
+  font-size: 0.875rem;
+  font-weight: 300;
+}
+
+.prose-invert font[size="3"] {
+  font-size: 1rem;
+  font-weight: 300;
+}
+
+.prose-invert font[size="5"] {
+  font-size: 1.25rem;
+  font-weight: 300;
+}
+
+/* Performance Optimizations */
+
+/* Basic font smoothing */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Essential Embla Carousel CSS */
+.embla {
+  overflow: hidden;
+}
+
+.embla__container {
+  display: flex;
+}
+
+.embla__slide {
+  flex: 0 0 auto;
+  min-width: 0;
+}
+
+/* Default slide width when no custom flex is specified */
+.embla__slide:not([class*="flex-"]):not([class*="w-"]) {
+  flex: 0 0 100%;
+}
+
+/* Debug borders for carousel issues (remove in production) */
+/* 
+.embla {
+  border: 2px solid red !important;
+}
+.embla__container {
+  border: 2px solid blue !important;
+}
+.embla__slide {
+  border: 2px solid green !important;
+}
+*/
+
+/* Ensure carousel containers have proper dimensions */
+.embla {
+  position: relative;
+  width: 100%;
+}
+
+
+/* Fix for gap and spacing issues */
+.embla__container.flex.gap-4 > .embla__slide,
+.embla__container.flex.gap-6 > .embla__slide {
+  margin-right: 0; /* Remove any potential margin conflicts */
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  /* Basic carousel fixes */
+  .embla {
+    overflow: hidden !important;
+    width: 100%;
+    position: relative;
+  }
+  
+  .embla__container {
+    display: flex !important;
+  }
+  
+  .embla__slide {
+    flex-shrink: 0 !important;
+    min-width: 0 !important;
+  }
+}
+
+

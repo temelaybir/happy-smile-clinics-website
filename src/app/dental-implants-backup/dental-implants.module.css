@@ -1,0 +1,74 @@
+/* Performance optimizations for dental implants page */
+
+/* Disable heavy animations on mobile */
+@media (max-width: 768px) {
+  .no-mobile-animation {
+    animation: none !important;
+    transition: opacity 0.3s ease !important;
+  }
+  
+  /* Disable parallax on mobile */
+  .parallax-disabled {
+    transform: none !important;
+  }
+}
+
+/* Hardware acceleration for smooth scrolling */
+.smooth-scroll {
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  will-change: transform;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* Optimize image rendering */
+.optimized-image {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  will-change: transform;
+}
+
+
+/* Background animation optimization */
+.bg-animation-mobile {
+  animation: none !important;
+  background-attachment: scroll !important;
+}
+
+/* Background scroll animation */
+@keyframes bgScrollHorizontal {
+  0% {
+    background-position: 0 center;
+  }
+  100% {
+    background-position: 2000px center;
+  }
+}
+
+@keyframes slideBackground {
+  from {
+    background-position: 0 center;
+  }
+  to {
+    background-position: 2000px center;
+  }
+}
+
+.bg-animation-desktop {
+  animation: bgScrollHorizontal 50s linear infinite;
+  will-change: background-position;
+}
+
+/* Optimize FAQ interactions */
+.faq-item {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* Optimize scroll performance */
+.scroll-container {
+  -webkit-overflow-scrolling: touch;
+  overflow-y: auto;
+  overflow-x: hidden;
+}

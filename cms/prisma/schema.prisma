@@ -1,0 +1,564 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// User Management
+model User {
+  id              String    @id @default(uuid())
+  email           String    @unique
+  password        String
+  firstName       String
+  lastName        String
+  role            UserRole  @default(EDITOR)
+  isActive        Boolean   @default(true)
+  lastLogin       DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  // Relations
+  posts           BlogPost[]
+  activityLogs    ActivityLog[]
+  contentVersions ContentVersion[]
+}
+
+enum UserRole {
+  ADMIN
+  EDITOR
+  VIEWER
+}
+
+// Activity Logs
+model ActivityLog {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  action      String
+  entityType  String
+  entityId    String?
+  details     String?
+  ipAddress   String?
+  userAgent   String?
+  createdAt   DateTime @default(now())
+}
+
+// Hero Videos
+model HeroVideo {
+  id          String   @id @default(uuid())
+  title       String
+  videoUrl    String
+  thumbnailUrl String?
+  isActive    Boolean  @default(true)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Multi-language support
+  translations HeroVideoTranslation[]
+}
+
+model HeroVideoTranslation {
+  id          String    @id @default(uuid())
+  heroVideoId String
+  heroVideo   HeroVideo @relation(fields: [heroVideoId], references: [id], onDelete: Cascade)
+  language    String
+  title       String
+  description String?
+
+  @@unique([heroVideoId, language])
+}
+
+// Reviews
+model Review {
+  id            String   @id @default(uuid())
+  patientName   String
+  rating        Int
+  comment       String
+  source        ReviewSource @default(GOOGLE)
+  sourceId      String?  // External ID from Google/other platforms
+  isVerified    Boolean  @default(false)
+  isVisible     Boolean  @default(true)
+  reviewDate    DateTime
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Multi-language support
+  translations  ReviewTranslation[]
+}
+
+enum ReviewSource {
+  GOOGLE
+  FACEBOOK
+  INSTAGRAM
+  WEBSITE
+  OTHER
+}
+
+model ReviewTranslation {
+  id        String  @id @default(uuid())
+  reviewId  String
+  review    Review  @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  language  String
+  comment   String
+
+  @@unique([reviewId, language])
+}
+
+// Instagram Content
+model InstagramContent {
+  id            String   @id @default(uuid())
+  type          InstagramType
+  mediaUrl      String
+  thumbnailUrl  String?
+  caption       String?
+  instagramId   String?  @unique
+  instagramUrl  String?
+  likes         Int      @default(0)
+  comments      Int      @default(0)
+  isActive      Boolean  @default(true)
+  postedAt      DateTime?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Multi-language support
+  translations  InstagramTranslation[]
+}
+
+enum InstagramType {
+  REEL
+  POST
+  STORY
+}
+
+model InstagramTranslation {
+  id              String           @id @default(uuid())
+  instagramId     String
+  instagram       InstagramContent @relation(fields: [instagramId], references: [id], onDelete: Cascade)
+  language        String
+  caption         String?
+
+  @@unique([instagramId, language])
+}
+
+// Patient Results (Before/After)
+model PatientResult {
+  id              String   @id @default(uuid())
+  patientCode     String   @unique // Anonymized patient identifier
+  treatmentType   String
+  beforeImageUrl  String
+  afterImageUrl   String
+  treatmentDate   DateTime
+  description     String?
+  isVisible       Boolean  @default(true)
+  order           Int      @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  service         Service? @relation(fields: [serviceId], references: [id])
+  serviceId       String?
+
+  // Multi-language support
+  translations    PatientResultTranslation[]
+}
+
+model PatientResultTranslation {
+  id              String        @id @default(uuid())
+  patientResultId String
+  patientResult   PatientResult @relation(fields: [patientResultId], references: [id], onDelete: Cascade)
+  language        String
+  treatmentType   String
+  description     String?
+
+  @@unique([patientResultId, language])
+}
+
+// Clinic Information
+model Clinic {
+  id            String   @id @default(uuid())
+  name          String
+  address       String
+  city          String
+  country       String
+  postalCode    String
+  phone         String
+  email         String
+  latitude      Float?
+  longitude     Float?
+  workingHours  String   // JSON string for complex hours
+  isMainClinic  Boolean  @default(false)
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  teamMembers   TeamMember[]
+
+  // Multi-language support
+  translations  ClinicTranslation[]
+}
+
+model ClinicTranslation {
+  id          String  @id @default(uuid())
+  clinicId    String
+  clinic      Clinic  @relation(fields: [clinicId], references: [id], onDelete: Cascade)
+  language    String
+  name        String
+  address     String
+  city        String
+  description String?
+
+  @@unique([clinicId, language])
+}
+
+// Team Members
+model TeamMember {
+  id              String   @id @default(uuid())
+  firstName       String
+  lastName        String
+  title           String
+  specialization  String?
+  bio             String?
+  imageUrl        String?
+  email           String?
+  phone           String?
+  linkedIn        String?
+  order           Int      @default(0)
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  clinic          Clinic?  @relation(fields: [clinicId], references: [id])
+  clinicId        String?
+
+  // Multi-language support
+  translations    TeamMemberTranslation[]
+}
+
+model TeamMemberTranslation {
+  id            String     @id @default(uuid())
+  teamMemberId  String
+  teamMember    TeamMember @relation(fields: [teamMemberId], references: [id], onDelete: Cascade)
+  language      String
+  title         String
+  specialization String?
+  bio           String?
+
+  @@unique([teamMemberId, language])
+}
+
+// Services
+model Service {
+  id            String   @id @default(uuid())
+  name          String
+  slug          String   @unique
+  description   String
+  shortDescription String?
+  imageUrl      String?
+  iconUrl       String?
+  price         Float?
+  duration      Int?     // in minutes
+  isActive      Boolean  @default(true)
+  isFeatured    Boolean  @default(false)
+  order         Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  // Relations
+  patientResults PatientResult[]
+  blogPosts      BlogPost[]
+
+  // Multi-language support
+  translations   ServiceTranslation[]
+}
+
+model ServiceTranslation {
+  id               String  @id @default(uuid())
+  serviceId        String
+  service          Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  language         String
+  name             String
+  description      String
+  shortDescription String?
+
+  @@unique([serviceId, language])
+}
+
+// Blog Posts
+model BlogPost {
+  id              String   @id @default(uuid())
+  title           String
+  slug            String   @unique
+  content         String
+  excerpt         String?
+  featuredImage   String?
+  status          PostStatus @default(DRAFT)
+  publishedAt     DateTime?
+  views           Int      @default(0)
+  readTime        Int?     // in minutes
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  author          User     @relation(fields: [authorId], references: [id])
+  authorId        String
+  categories      BlogCategory[]
+  tags            BlogTag[]
+  services        Service[]
+
+  // SEO
+  metaTitle       String?
+  metaDescription String?
+  metaKeywords    String?
+
+  // Multi-language support
+  translations    BlogPostTranslation[]
+}
+
+enum PostStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+model BlogPostTranslation {
+  id              String   @id @default(uuid())
+  blogPostId      String
+  blogPost        BlogPost @relation(fields: [blogPostId], references: [id], onDelete: Cascade)
+  language        String
+  title           String
+  content         String
+  excerpt         String?
+  metaTitle       String?
+  metaDescription String?
+  metaKeywords    String?
+
+  @@unique([blogPostId, language])
+}
+
+// Blog Categories
+model BlogCategory {
+  id          String   @id @default(uuid())
+  name        String
+  slug        String   @unique
+  description String?
+  parentId    String?
+  parent      BlogCategory? @relation("CategoryParent", fields: [parentId], references: [id])
+  children    BlogCategory[] @relation("CategoryParent")
+  posts       BlogPost[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Multi-language support
+  translations BlogCategoryTranslation[]
+}
+
+model BlogCategoryTranslation {
+  id             String       @id @default(uuid())
+  categoryId     String
+  category       BlogCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  language       String
+  name           String
+  description    String?
+
+  @@unique([categoryId, language])
+}
+
+// Blog Tags
+model BlogTag {
+  id        String     @id @default(uuid())
+  name      String
+  slug      String     @unique
+  posts     BlogPost[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  // Multi-language support
+  translations BlogTagTranslation[]
+}
+
+model BlogTagTranslation {
+  id       String  @id @default(uuid())
+  tagId    String
+  tag      BlogTag @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  language String
+  name     String
+
+  @@unique([tagId, language])
+}
+
+// Contact Information
+model ContactInfo {
+  id              String   @id @default(uuid())
+  type            ContactType
+  value           String
+  label           String?
+  isPrimary       Boolean  @default(false)
+  isActive        Boolean  @default(true)
+  order           Int      @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+enum ContactType {
+  PHONE
+  EMAIL
+  WHATSAPP
+  TELEGRAM
+  INSTAGRAM
+  FACEBOOK
+  LINKEDIN
+  YOUTUBE
+  TIKTOK
+}
+
+// General Settings
+model Setting {
+  id          String   @id @default(uuid())
+  key         String   @unique
+  value       String
+  type        SettingType @default(STRING)
+  category    String   @default("general")
+  description String?
+  isPublic    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+enum SettingType {
+  STRING
+  NUMBER
+  BOOLEAN
+  JSON
+  HTML
+}
+
+// Media Library
+model Media {
+  id          String   @id @default(uuid())
+  fileName    String
+  originalName String
+  mimeType    String
+  size        Int      // in bytes
+  url         String
+  thumbnailUrl String?
+  alt         String?
+  caption     String?
+  type        MediaType
+  folder      String?
+  metadata    String?  // JSON string for additional metadata
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
+  DOCUMENT
+  OTHER
+}
+
+// Content Versioning
+model ContentVersion {
+  id          String   @id @default(uuid())
+  entityType  String
+  entityId    String
+  version     Int
+  data        String   // JSON string of the content
+  changes     String?  // JSON string of what changed
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  createdAt   DateTime @default(now())
+
+  @@unique([entityType, entityId, version])
+}
+
+// SEO Settings
+model SEOSetting {
+  id              String   @id @default(uuid())
+  page            String   @unique
+  title           String?
+  description     String?
+  keywords        String?
+  ogTitle         String?
+  ogDescription   String?
+  ogImage         String?
+  twitterCard     String?
+  twitterTitle    String?
+  twitterDescription String?
+  twitterImage    String?
+  canonical       String?
+  robots          String?
+  structuredData  String?  // JSON-LD
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Multi-language support
+  translations    SEOTranslation[]
+}
+
+model SEOTranslation {
+  id                 String     @id @default(uuid())
+  seoId              String
+  seo                SEOSetting @relation(fields: [seoId], references: [id], onDelete: Cascade)
+  language           String
+  title              String?
+  description        String?
+  keywords           String?
+  ogTitle            String?
+  ogDescription      String?
+  twitterTitle       String?
+  twitterDescription String?
+
+  @@unique([seoId, language])
+}
+
+// Contact Form Submissions
+model ContactSubmission {
+  id          String   @id @default(uuid())
+  name        String
+  email       String
+  phone       String?
+  subject     String?
+  message     String
+  source      String?  // Which page/form it came from
+  ipAddress   String?
+  userAgent   String?
+  isRead      Boolean  @default(false)
+  isReplied   Boolean  @default(false)
+  notes       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// Newsletter Subscribers
+model Newsletter {
+  id            String   @id @default(uuid())
+  email         String   @unique
+  isActive      Boolean  @default(true)
+  subscribedAt  DateTime @default(now())
+  unsubscribedAt DateTime?
+  source        String?
+  ipAddress     String?
+}
+
+// Language Settings
+model Language {
+  id        String   @id @default(uuid())
+  code      String   @unique // e.g., "en", "tr", "de"
+  name      String   // e.g., "English", "Türkçe", "Deutsch"
+  nativeName String  // e.g., "English", "Türkçe", "Deutsch"
+  isActive  Boolean  @default(true)
+  isDefault Boolean  @default(false)
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
