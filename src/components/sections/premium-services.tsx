@@ -41,7 +41,7 @@ export default function PremiumServices() {
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-6xl font-light text-white mb-4">
+          <h2 className="text-4xl md:text-6xl font-light text-white/90 mb-4">
             Our Services
           </h2>
           <div className="w-24 h-px bg-gradient-to-r from-transparent via-white to-transparent mx-auto"></div>

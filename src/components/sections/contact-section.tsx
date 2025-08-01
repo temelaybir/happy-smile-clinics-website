@@ -133,7 +133,7 @@ export default function ContactSection() {
             className="space-y-8"
           >
             <div>
-              <h2 className="text-4xl md:text-5xl font-light mb-6 text-white tracking-wide">
+              <h2 className="text-4xl md:text-5xl font-light mb-6 text-white/90 tracking-wide">
                 Get in Touch
               </h2>
               <p className="text-gray-300 text-lg leading-relaxed font-light">
@@ -168,7 +168,7 @@ export default function ContactSection() {
               transition={{ duration: 0.8, delay: 0.4 }}
               className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6"
             >
-              <h3 className="text-xl font-light mb-4 text-white">Why Choose Us?</h3>
+              <h3 className="text-xl font-light mb-4 text-white/90">Why Choose Us?</h3>
               <ul className="space-y-3 text-gray-300 font-light">
                 <li className="flex items-center gap-3">
                   <div className="w-2 h-2 bg-white/60 rounded-full"></div>
@@ -194,7 +194,7 @@ export default function ContactSection() {
             className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8"
           >
             <div className="mb-8">
-              <h3 className="text-2xl font-light mb-2 text-white">Send us a Message</h3>
+              <h3 className="text-2xl font-light mb-2 text-white/90">Send us a Message</h3>
               <p className="text-gray-300 font-light">We'll get back to you within 24 hours.</p>
             </div>
 

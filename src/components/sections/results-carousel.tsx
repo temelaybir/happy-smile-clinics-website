@@ -6,6 +6,7 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ArrowRight } from 'lucide-react'
 import Image from 'next/image'
+import Link from 'next/link'
 import type { PatientResult } from '@/lib/cms'
 import Carousel from 'react-multi-carousel'
 import 'react-multi-carousel/lib/styles.css'
@@ -141,7 +142,7 @@ export default function ResultsCarousel({ results }: ResultsCarouselProps) {
             </span>
           </motion.div>
           
-          <motion.h2 className="text-5xl md:text-7xl font-light mb-8 text-white leading-tight">
+          <motion.h2 className="text-5xl md:text-7xl font-light mb-8 text-white/90 leading-tight">
             <motion.span
               className="inline-block mr-6"
               initial={{ opacity: 0, y: 80 }}
@@ -211,14 +212,6 @@ export default function ResultsCarousel({ results }: ResultsCarouselProps) {
                       sizes="(max-width: 768px) 100vw, 33vw"
                     />
                     
-                    <motion.div
-                      className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity duration-300"
-                    >
-                      <div className="text-white text-center">
-                        <div className="text-2xl mb-2">👁️</div>
-                        <p className="text-sm font-medium">View Details</p>
-                      </div>
-                    </motion.div>
                   </div>
 
                   <motion.div 
@@ -265,22 +258,16 @@ export default function ResultsCarousel({ results }: ResultsCarouselProps) {
           transition={{ duration: 0.8, delay: 1 }}
           viewport={{ once: true }}
         >
-          <motion.button
-            className="group relative px-10 py-4 bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 text-white font-medium rounded-full overflow-hidden shadow-2xl shadow-purple-500/25"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <span className="relative z-10 flex items-center gap-3">
-              <span>Start Your Transformation</span>
+          <Link href="/results-gallery">
+            <motion.button
+              className="inline-flex items-center gap-3 px-8 py-4 bg-white/5 backdrop-blur-sm text-white font-medium rounded-lg border border-white/20 hover:bg-white/10 transition-all duration-500"
+              whileHover={{ y: -2 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <span>Go to Results Gallery</span>
               <ArrowRight className="w-5 h-5" />
-            </span>
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-pink-600 via-purple-600 to-pink-600"
-              initial={{ x: '100%' }}
-              whileHover={{ x: 0 }}
-              transition={{ duration: 0.5 }}
-            />
-          </motion.button>
+            </motion.button>
+          </Link>
         </motion.div>
       </div>
     </section>

@@ -197,7 +197,7 @@ export default function VideoCarouselOptimized({ videos }: VideoCarouselProps) {
             </span>
           </div>
           
-          <h2 className="text-4xl md:text-6xl font-light mb-8 text-white">
+          <h2 className="text-4xl md:text-6xl font-light mb-8 text-white/90">
             Real{' '}
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-400 to-red-400">
               Transformations

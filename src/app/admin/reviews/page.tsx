@@ -130,24 +130,43 @@ export default function ReviewsPage() {
           <h1 className="text-3xl font-bold text-gray-900">Reviews</h1>
           <p className="text-gray-600 mt-2">Manage customer reviews and testimonials</p>
         </div>
-        <button 
-          onClick={() => {
-            setEditingReview({
-              id: '',
-              name: '',
-              country: '',
-              rating: 5,
-              text: '',
-              verified: false,
-              featured: false,
-              createdAt: new Date().toISOString()
-            })
-            setIsModalOpen(true)
-          }}
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center gap-2">
-          <Plus className="w-5 h-5" />
-          Add Review
-        </button>
+        <div className="flex gap-2">
+          <button 
+            onClick={async () => {
+              try {
+                const response = await fetch('/api/admin/cache/clear', { method: 'POST' })
+                if (response.ok) {
+                  toast.success('Cache cleared successfully')
+                  fetchReviews()
+                } else {
+                  toast.error('Failed to clear cache')
+                }
+              } catch (error) {
+                toast.error('Failed to clear cache')
+              }
+            }}
+            className="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 flex items-center gap-2">
+            Clear Cache
+          </button>
+          <button 
+            onClick={() => {
+              setEditingReview({
+                id: '',
+                name: '',
+                country: '',
+                rating: 5,
+                text: '',
+                verified: false,
+                featured: false,
+                createdAt: new Date().toISOString()
+              })
+              setIsModalOpen(true)
+            }}
+            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center gap-2">
+            <Plus className="w-5 h-5" />
+            Add Review
+          </button>
+        </div>
       </div>
 
       {/* Filters */}

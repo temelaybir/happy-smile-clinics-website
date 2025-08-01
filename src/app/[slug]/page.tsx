@@ -223,9 +223,9 @@ export default function DynamicPage({ params }: { params: Promise<{ slug: string
                 className="flex flex-col items-center justify-center min-h-[80vh] sm:min-h-screen"
               >
                 {/* Page Title */}
-                <div className="mb-8 sm:mb-10 w-full">
+                <div className="mb-8 sm:mb-10 w-full text-center">
                   <motion.div 
-                    className="relative inline-block"
+                    className="relative"
                     initial={{ opacity: 0, y: 50 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 1.5, ease: [0.23, 1, 0.32, 1] }}
@@ -244,7 +244,7 @@ export default function DynamicPage({ params }: { params: Promise<{ slug: string
                         <motion.span
                           initial={{ opacity: 0, scale: 0.8 }}
                           animate={{ opacity: 1, scale: 1 }}
-                          transition={{ delay: 1.8, duration: 0.5, type: "spring" }}
+                          transition={{ delay: 0.5, duration: 0.5, type: "spring" }}
                           className="ml-4 inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-sm font-medium rounded-full shadow-lg"
                           style={{
                             fontSize: '0.25em',

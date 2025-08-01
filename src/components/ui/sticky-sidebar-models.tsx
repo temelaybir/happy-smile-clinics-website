@@ -26,146 +26,137 @@ interface ModelProps {
 
 // Model 1: Gradient Circles with Labels
 export const GradientCirclesModel = ({ items, onItemClick, isLink }: ModelProps) => (
-  <div className="bg-gray-900/95 backdrop-blur-sm rounded-l-2xl shadow-2xl p-2">
-    <div className="flex flex-col gap-3">
-      {items.map((item, index) => {
-        const Icon = iconMap[item.icon] || MessageCircle
-        const content = (
-          <motion.div
-            key={item.id}
-            className="group relative"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: index * 0.1 }}
+  <div className="flex flex-col gap-3">
+    {items.map((item, index) => {
+      const Icon = iconMap[item.icon] || MessageCircle
+      const content = (
+        <motion.div
+          key={item.id}
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: index * 0.1 }}
+          whileHover={{ x: -2 }}
+        >
+          <button
+            onClick={() => !isLink(item) && onItemClick(item)}
+            className="flex items-center gap-3 px-6 py-3 bg-white/5 backdrop-blur-sm text-white font-medium rounded-l-lg border border-white/20 hover:bg-white/10 transition-all duration-500 w-full"
           >
-            <button
-              onClick={() => !isLink(item) && onItemClick(item)}
-              className="flex flex-col items-center gap-1 p-3 rounded-xl hover:bg-gray-800 transition-colors cursor-pointer"
-            >
-              <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                <Icon className="w-5 h-5 text-white" />
-              </div>
-              <span className="text-xs text-gray-300 font-medium whitespace-nowrap">
-                {item.label}
-              </span>
-            </button>
-          </motion.div>
-        )
-        
-        return isLink(item) ? (
-          <Link key={item.id} href={item.value}>
-            {content}
-          </Link>
-        ) : content
-      })}
-    </div>
+            <Icon className="w-5 h-5 text-white" />
+            <span className="text-sm">{item.label}</span>
+          </button>
+        </motion.div>
+      )
+      
+      return isLink(item) ? (
+        <Link key={item.id} href={item.value}>
+          {content}
+        </Link>
+      ) : content
+    })}
   </div>
 )
 
 // Model 2: Minimal Icons Only
 export const MinimalIconsModel = ({ items, onItemClick, isLink }: ModelProps) => (
-  <div className="bg-white/10 backdrop-blur-md rounded-l-full shadow-xl p-2">
-    <div className="flex flex-col gap-2">
-      {items.map((item, index) => {
-        const Icon = iconMap[item.icon] || MessageCircle
-        return (
-          <motion.div
-            key={item.id}
-            className="group relative"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: index * 0.1, type: "spring" }}
+  <div className="flex flex-col gap-2">
+    {items.map((item, index) => {
+      const Icon = iconMap[item.icon] || MessageCircle
+      const content = (
+        <motion.div
+          key={item.id}
+          className="group relative"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: index * 0.1, type: "spring" }}
+          whileHover={{ scale: 1.1 }}
+        >
+          <button
+            onClick={() => !isLink(item) && onItemClick(item)}
+            className="w-12 h-12 rounded-lg bg-white/5 backdrop-blur-sm border border-white/20 hover:bg-white/10 flex items-center justify-center transition-all duration-500"
           >
-            <button
-              onClick={() => !isLink(item) && onItemClick(item)}
-              className="w-12 h-12 rounded-full bg-black/50 hover:bg-black/70 flex items-center justify-center transition-all group-hover:scale-110"
-            >
-              <Icon className="w-5 h-5 text-white" />
-            </button>
-            
-            {/* Tooltip */}
-            <div className="absolute right-full mr-3 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity">
-              <div className="bg-black text-white text-sm px-3 py-2 rounded-lg whitespace-nowrap">
-                {item.label}
-                <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-0 h-0 border-l-8 border-l-black border-t-8 border-t-transparent border-b-8 border-b-transparent" />
-              </div>
+            <Icon className="w-5 h-5 text-white" />
+          </button>
+          
+          {/* Tooltip */}
+          <div className="absolute right-full mr-3 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity">
+            <div className="bg-black text-white text-sm px-3 py-2 rounded-lg whitespace-nowrap font-medium">
+              {item.label}
+              <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-0 h-0 border-l-8 border-l-black border-t-8 border-t-transparent border-b-8 border-b-transparent" />
             </div>
-          </motion.div>
-        )
-      })}
-    </div>
+          </div>
+        </motion.div>
+      )
+      
+      return isLink(item) ? (
+        <Link key={item.id} href={item.value}>
+          {content}
+        </Link>
+      ) : content
+    })}
   </div>
 )
 
 // Model 3: Colorful Badges
-export const ColorfulBadgesModel = ({ items, onItemClick, isLink }: ModelProps) => {
-  const colors = [
-    'from-blue-500 to-cyan-500',
-    'from-green-500 to-emerald-500',
-    'from-purple-500 to-pink-500',
-    'from-orange-500 to-red-500'
-  ]
-  
-  return (
-    <div className="flex flex-col gap-3">
-      {items.map((item, index) => {
-        const Icon = iconMap[item.icon] || MessageCircle
-        const colorClass = colors[index % colors.length]
-        
-        return (
-          <motion.div
-            key={item.id}
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: index * 0.1 }}
+export const ColorfulBadgesModel = ({ items, onItemClick, isLink }: ModelProps) => (
+  <div className="flex flex-col gap-3">
+    {items.map((item, index) => {
+      const Icon = iconMap[item.icon] || MessageCircle
+      const content = (
+        <motion.div
+          key={item.id}
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: index * 0.1 }}
+          whileHover={{ x: -2 }}
+        >
+          <button
+            onClick={() => !isLink(item) && onItemClick(item)}
+            className="flex items-center gap-3 px-6 py-3 bg-white/5 backdrop-blur-sm text-white font-medium rounded-l-lg border border-white/20 hover:bg-white/10 transition-all duration-500 w-full"
           >
-            <button
-              onClick={() => !isLink(item) && onItemClick(item)}
-              className={`group relative bg-gradient-to-r ${colorClass} rounded-l-full pl-4 pr-6 py-3 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all`}
-            >
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
-                  <Icon className="w-4 h-4 text-white" />
-                </div>
-                <span className="text-white font-medium text-sm">
-                  {item.label}
-                </span>
-              </div>
-            </button>
-          </motion.div>
-        )
-      })}
-    </div>
-  )
-}
+            <Icon className="w-5 h-5 text-white" />
+            <span className="text-sm">{item.label}</span>
+          </button>
+        </motion.div>
+      )
+      
+      return isLink(item) ? (
+        <Link key={item.id} href={item.value}>
+          {content}
+        </Link>
+      ) : content
+    })}
+  </div>
+)
 
 // Model 4: Glassmorphism Cards
 export const GlassmorphismModel = ({ items, onItemClick, isLink }: ModelProps) => (
-  <div className="p-2">
-    <div className="flex flex-col gap-3">
-      {items.map((item, index) => {
-        const Icon = iconMap[item.icon] || MessageCircle
-        return (
-          <motion.div
-            key={item.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 }}
+  <div className="flex flex-col gap-3">
+    {items.map((item, index) => {
+      const Icon = iconMap[item.icon] || MessageCircle
+      const content = (
+        <motion.div
+          key={item.id}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: index * 0.1 }}
+          whileHover={{ y: -2 }}
+        >
+          <button
+            onClick={() => !isLink(item) && onItemClick(item)}
+            className="flex items-center gap-3 px-6 py-4 bg-white/5 backdrop-blur-sm text-white font-medium rounded-lg border border-white/20 hover:bg-white/10 transition-all duration-500 w-full"
           >
-            <button
-              onClick={() => !isLink(item) && onItemClick(item)}
-              className="group relative bg-white/10 backdrop-blur-lg rounded-2xl p-4 border border-white/20 hover:bg-white/20 transition-all hover:scale-105"
-            >
-              <div className="flex items-center gap-3">
-                <Icon className="w-5 h-5 text-white" />
-                <span className="text-white font-light">{item.label}</span>
-              </div>
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/0 via-white/5 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity" />
-            </button>
-          </motion.div>
-        )
-      })}
-    </div>
+            <Icon className="w-5 h-5 text-white" />
+            <span className="text-sm">{item.label}</span>
+          </button>
+        </motion.div>
+      )
+      
+      return isLink(item) ? (
+        <Link key={item.id} href={item.value}>
+          {content}
+        </Link>
+      ) : content
+    })}
   </div>
 )
 
@@ -229,46 +220,43 @@ export const FloatingBubblesModel = ({ items, onItemClick, isLink }: ModelProps)
 
 // Model 6: Neon Glow
 export const NeonGlowModel = ({ items, onItemClick, isLink }: ModelProps) => (
-  <div className="bg-black/80 backdrop-blur-xl rounded-l-3xl p-3 border-l-2 border-purple-500/50">
-    <div className="flex flex-col gap-4">
-      {items.map((item, index) => {
-        const Icon = iconMap[item.icon] || MessageCircle
-        const glowColors = [
-          'shadow-blue-500/50 hover:shadow-blue-500',
-          'shadow-green-500/50 hover:shadow-green-500',
-          'shadow-purple-500/50 hover:shadow-purple-500',
-          'shadow-pink-500/50 hover:shadow-pink-500'
-        ]
-        const glowColor = glowColors[index % glowColors.length]
-        
-        return (
-          <motion.div
-            key={item.id}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: index * 0.1 }}
+  <div className="flex flex-col gap-3">
+    {items.map((item, index) => {
+      const Icon = iconMap[item.icon] || MessageCircle
+      const content = (
+        <motion.div
+          key={item.id}
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: index * 0.1 }}
+          whileHover={{ x: -2 }}
+        >
+          <button
+            onClick={() => !isLink(item) && onItemClick(item)}
+            className="flex items-center gap-3 px-6 py-3 bg-white/5 backdrop-blur-sm text-white font-medium rounded-l-lg border border-white/20 hover:bg-white/10 transition-all duration-500 w-full"
           >
-            <button
-              onClick={() => !isLink(item) && onItemClick(item)}
-              className={`group relative w-12 h-12 bg-gray-900 rounded-xl flex items-center justify-center shadow-lg ${glowColor} transition-all hover:scale-110`}
-            >
-              <Icon className="w-5 h-5 text-white" />
-              <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-            </button>
-          </motion.div>
-        )
-      })}
-    </div>
+            <Icon className="w-5 h-5 text-white" />
+            <span className="text-sm">{item.label}</span>
+          </button>
+        </motion.div>
+      )
+      
+      return isLink(item) ? (
+        <Link key={item.id} href={item.value}>
+          {content}
+        </Link>
+      ) : content
+    })}
   </div>
 )
 
 // Model 7: Slide Out Labels
 export const SlideOutLabelsModel = ({ items, onItemClick, isLink }: ModelProps) => (
-  <div className="bg-gray-900/95 backdrop-blur-sm rounded-l-2xl shadow-2xl overflow-hidden">
+  <div className="bg-white/5 backdrop-blur-sm rounded-l-lg border border-white/20 overflow-hidden">
     <div className="flex flex-col">
       {items.map((item, index) => {
         const Icon = iconMap[item.icon] || MessageCircle
-        return (
+        const content = (
           <motion.div
             key={item.id}
             initial={{ opacity: 0 }}
@@ -277,16 +265,22 @@ export const SlideOutLabelsModel = ({ items, onItemClick, isLink }: ModelProps) 
           >
             <button
               onClick={() => !isLink(item) && onItemClick(item)}
-              className="group relative flex items-center px-4 py-4 hover:bg-gray-800 transition-all overflow-hidden"
+              className="group relative flex items-center px-4 py-4 hover:bg-white/10 transition-all duration-500 overflow-hidden w-full text-left"
             >
               <Icon className="w-5 h-5 text-white z-10" />
-              <span className="absolute left-12 text-white font-medium opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0">
+              <span className="absolute left-12 text-white font-medium text-sm opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0">
                 {item.label}
               </span>
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-600/20 to-pink-600/20 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300" />
+              <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-white/5 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300" />
             </button>
           </motion.div>
         )
+        
+        return isLink(item) ? (
+          <Link key={item.id} href={item.value}>
+            {content}
+          </Link>
+        ) : content
       })}
     </div>
   </div>
@@ -296,7 +290,7 @@ export const SlideOutLabelsModel = ({ items, onItemClick, isLink }: ModelProps) 
 export const GlassMinimalHybridModel = ({ items, onItemClick, isLink }: ModelProps) => {
   // Mobile layout - horizontal with dividers
   const mobileLayout = (
-    <div className="md:hidden flex w-full bg-white/10 backdrop-blur-2xl rounded-xl overflow-hidden border border-white/20">
+    <div className="md:hidden flex w-full bg-white/5 backdrop-blur-sm rounded-lg overflow-hidden border border-white/20">
       {items.map((item, index) => {
         const Icon = iconMap[item.icon] || MessageCircle
         const content = (
@@ -310,10 +304,10 @@ export const GlassMinimalHybridModel = ({ items, onItemClick, isLink }: ModelPro
             <button
               onClick={() => !isLink(item) && onItemClick(item)}
               className="w-full h-full py-3 px-2 flex flex-col items-center justify-center gap-1
-                         hover:bg-white/10 transition-colors relative"
+                         hover:bg-white/10 transition-all duration-500 relative"
             >
-              <Icon className="w-5 h-5 text-white/90" />
-              <span className="text-white/90 font-light text-[10px] tracking-wide">
+              <Icon className="w-5 h-5 text-white" />
+              <span className="text-white font-medium text-[10px]">
                 {item.label}
               </span>
               {index < items.length - 1 && (
@@ -346,27 +340,10 @@ export const GlassMinimalHybridModel = ({ items, onItemClick, isLink }: ModelPro
           >
             <button
               onClick={() => !isLink(item) && onItemClick(item)}
-              className="group relative bg-white/10 backdrop-blur-2xl rounded-l-full 
-                         pl-4 pr-6 py-3 shadow-lg hover:shadow-xl 
-                         transform hover:scale-105 transition-all duration-300
-                         border border-white/20 hover:border-white/30
-                         hover:bg-white/15 min-w-[160px]"
+              className="flex items-center gap-3 px-6 py-3 bg-white/5 backdrop-blur-sm text-white font-medium rounded-l-lg border border-white/20 hover:bg-white/10 transition-all duration-500 w-full"
             >
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 bg-white/20 backdrop-blur rounded-full 
-                                flex items-center justify-center group-hover:bg-white/30 
-                                transition-colors border border-white/30">
-                  <Icon className="w-4 h-4 text-white" />
-                </div>
-                <span className="text-white font-light text-sm tracking-wide">
-                  {item.label}
-                </span>
-              </div>
-              
-              {/* Glass overlay effect */}
-              <div className="absolute inset-0 rounded-l-full bg-gradient-to-r 
-                              from-white/10 via-white/5 to-transparent 
-                              opacity-0 group-hover:opacity-100 transition-opacity" />
+              <Icon className="w-5 h-5 text-white" />
+              <span className="text-sm">{item.label}</span>
             </button>
           </motion.div>
         )

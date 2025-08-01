@@ -20,7 +20,7 @@ interface EnhancedReviewsProps {
 const responsive = {
   superLargeDesktop: {
     breakpoint: { max: 4000, min: 1536 },
-    items: 2,
+    items: 3,
     slidesToSlide: 1
   },
   desktop: {
@@ -40,59 +40,17 @@ const responsive = {
   }
 }
 
-// Fallback reviews data for testing
-const fallbackReviews: ReviewData[] = [
-  {
-    id: '1',
-    name: 'Sarah M.',
-    country: 'United Kingdom',
-    rating: 5,
-    text: "Exceptional service and amazing results! The team at Happy Smile made my dental journey comfortable and stress-free. I couldn't be happier with my new smile.",
-    image: '/images/reviews/review-1.jpg',
-    featured: true,
-    verified: true,
-    createdAt: new Date()
-  },
-  {
-    id: '2',
-    name: 'Michael K.',
-    country: 'Germany',
-    rating: 5,
-    text: "Professional, caring, and highly skilled. The clinic exceeded all my expectations. The results are natural and beautiful.",
-    image: '/images/reviews/review-2.jpg',
-    featured: true,
-    verified: true,
-    createdAt: new Date()
-  },
-  {
-    id: '3',
-    name: 'Emma R.',
-    country: 'France',
-    rating: 5,
-    text: "From consultation to aftercare, everything was perfect. The team's attention to detail and patient care is outstanding.",
-    image: '/images/reviews/review-3.jpg',
-    featured: true,
-    verified: true,
-    createdAt: new Date()
-  },
-  {
-    id: '4',
-    name: 'James L.',
-    country: 'Canada',
-    rating: 5,
-    text: "Life-changing experience! The quality of work is exceptional and the clinic facilities are state-of-the-art.",
-    image: '/images/reviews/review-4.jpg',
-    featured: true,
-    verified: true,
-    createdAt: new Date()
-  }
-]
-
 export default function EnhancedReviews({ reviews }: EnhancedReviewsProps) {
   const sectionRef = useRef<HTMLDivElement>(null)
   
-  // Use fallback reviews if no reviews provided
-  const displayReviews = reviews && reviews.length > 0 ? reviews : fallbackReviews
+  // Always use provided reviews, no fallback
+  const displayReviews = reviews || []
+  
+  // Log reviews for debugging
+  useEffect(() => {
+    console.log('🎯 Enhanced Reviews - Received reviews:', reviews)
+    console.log('🎯 Enhanced Reviews - Display reviews:', displayReviews)
+  }, [reviews, displayReviews])
   
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -149,7 +107,7 @@ export default function EnhancedReviews({ reviews }: EnhancedReviewsProps) {
     return (
       <button 
         onClick={() => onClick()}
-        className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/20 transition-all duration-300 border border-white/20 z-50"
+        className="absolute -left-16 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/20 transition-all duration-300 border border-white/20 z-50 hidden lg:flex"
       >
         <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -162,7 +120,7 @@ export default function EnhancedReviews({ reviews }: EnhancedReviewsProps) {
     return (
       <button 
         onClick={() => onClick()}
-        className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/20 transition-all duration-300 border border-white/20 z-50"
+        className="absolute -right-16 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/20 transition-all duration-300 border border-white/20 z-50 hidden lg:flex"
       >
         <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -185,7 +143,7 @@ export default function EnhancedReviews({ reviews }: EnhancedReviewsProps) {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-6xl font-light text-white mb-4">
+            <h2 className="text-4xl md:text-6xl font-light text-white/90 mb-4">
               Patient Reviews
             </h2>
             <div className="w-24 h-px bg-gradient-to-r from-transparent via-white to-transparent mx-auto"></div>

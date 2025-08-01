@@ -38,6 +38,7 @@ export interface ReviewData {
   text: string
   verified: boolean
   featured?: boolean
+  createdAt?: Date
 }
 
 export interface SiteContent {
@@ -181,16 +182,21 @@ export async function getFeaturedReviews(): Promise<ReviewData[]> {
       return cached
     }
 
-    console.log('🔍 Fetching featured reviews...')
-    const reviews = await prisma.review.findMany({
-      where: { featured: true },
-      orderBy: { createdAt: 'desc' },
-      take: 6
-    })
+    console.log('🔍 Fetching featured reviews from file storage...')
+    
+    // Import loadReviews function
+    const { loadReviews } = await import('@/lib/file-storage')
+    const allReviews = await loadReviews()
+    
+    // Filter featured reviews and sort by date
+    const featuredReviews = allReviews
+      .filter((review: any) => review.featured)
+      .sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+      .slice(0, 6)
+    
+    console.log('✅ Found', featuredReviews.length, 'featured reviews')
 
-    console.log('✅ Found', reviews.length, 'featured reviews')
-
-    const result = reviews.map(review => ({
+    const result = featuredReviews.map((review: any) => ({
       id: review.id,
       name: review.name,
       country: review.country,
@@ -198,7 +204,8 @@ export async function getFeaturedReviews(): Promise<ReviewData[]> {
       rating: review.rating,
       text: review.text,
       verified: review.verified,
-      featured: review.featured
+      featured: review.featured,
+      createdAt: new Date(review.createdAt)
     }))
 
     // Cache the result
@@ -294,10 +301,16 @@ export async function getAllResults(): Promise<PatientResult[]> {
 
 export async function getAllReviews(): Promise<ReviewData[]> {
   try {
-    const reviews = await prisma.review.findMany({
-      orderBy: { createdAt: 'desc' }
-    })
-    return reviews.map(review => ({
+    // Import loadReviews function
+    const { loadReviews } = await import('@/lib/file-storage')
+    const reviews = await loadReviews()
+    
+    // Sort by date
+    const sortedReviews = reviews.sort((a: any, b: any) => 
+      new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    )
+    
+    return sortedReviews.map((review: any) => ({
       id: review.id,
       name: review.name,
       country: review.country,
@@ -305,7 +318,8 @@ export async function getAllReviews(): Promise<ReviewData[]> {
       rating: review.rating,
       text: review.text,
       verified: review.verified,
-      featured: review.featured
+      featured: review.featured,
+      createdAt: new Date(review.createdAt)
     }))
   } catch (error) {
     console.error('Error fetching all reviews:', error)

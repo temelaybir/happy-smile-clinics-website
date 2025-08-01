@@ -4,15 +4,18 @@ import { loadPages } from '@/lib/file-storage'
 // GET page by slug (public API)
 export async function GET(
   request: NextRequest,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
+    // Await params as required in Next.js 15
+    const { slug } = await params
+    
     // Load pages from file storage
     const pagesData = await loadPages()
     
     // Find page by slug
     const page = Object.values(pagesData).find(
-      (p: any) => p.slug === params.slug && p.isPublished
+      (p: any) => p.slug === slug && p.isPublished
     )
 
     if (!page) {

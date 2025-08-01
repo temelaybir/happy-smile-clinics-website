@@ -1,11 +1,16 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Poiret_One } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
 import ClientLayout from "@/components/client-layout";
 import StickySidebar from "@/components/ui/sticky-sidebar";
 
 const inter = Inter({ subsets: ["latin"] });
+const poiretOne = Poiret_One({ 
+  weight: '400',
+  subsets: ["latin"],
+  variable: '--font-poiret-one'
+});
 
 export const metadata: Metadata = {
   title: "Happy Smile Clinics - Your Smile, Your Style",
@@ -20,7 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body 
-        className={`antialiased bg-black text-white ${inter.className}`}
+        className={`antialiased bg-black text-white ${inter.className} ${poiretOne.variable}`}
       >
         <Providers>
           <ClientLayout>

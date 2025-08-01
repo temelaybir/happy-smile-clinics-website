@@ -31,7 +31,7 @@ export default function AboutPreviewSimple() {
 
             {/* Section Title */}
             <div className="mb-6">
-              <h2 className="text-4xl md:text-5xl font-light text-white mb-4">
+              <h2 className="text-4xl md:text-5xl font-light text-white/90 mb-4">
                 About Happy Smile
               </h2>
               <div className="w-24 h-px bg-gradient-to-r from-white/60 via-white/20 to-transparent"></div>
@@ -39,7 +39,7 @@ export default function AboutPreviewSimple() {
 
             {/* Subtitle */}
             <div>
-              <h3 className="text-xl md:text-2xl font-light text-gray-300 leading-relaxed">
+              <h3 className="text-xl md:text-2xl font-light text-gray-300/90 leading-relaxed">
                 Where Excellence Meets Innovation in Dental Care
               </h3>
             </div>
@@ -110,7 +110,7 @@ export default function AboutPreviewSimple() {
 
             {/* Clinic Info Overlay */}
             <div className="absolute bottom-6 left-6 right-6 bg-black/90 backdrop-blur-sm p-6 rounded-xl">
-              <h3 className="text-xl font-light text-white mb-3">
+              <h3 className="text-xl font-light text-white/90 mb-3">
                 International Excellence
               </h3>
               <div className="text-white/70 text-sm font-light leading-relaxed space-y-1">

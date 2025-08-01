@@ -11,12 +11,12 @@ interface FullScreenMenuProps {
 
 export default function FullScreenMenu({ onClose }: FullScreenMenuProps) {
   const menuItems = [
-    { name: "ABOUT US", href: "/about" },
+    { name: "ABOUT US", href: "/about-us" },
     { name: "ALL ON FOUR", href: "/all-on-four" },
-    { name: "DENTAL IMPLANTS", href: "#" },
+    { name: "DENTAL IMPLANTS", href: "/dental-implants" },
     { name: "VENEERS", href: "/veneers" },
     { name: "RESULTS GALLERY", href: "/results-gallery" },
-    { name: "CONTACT US", href: "/contact" }
+    { name: "CONTACT US", href: "/contact-us" }
   ]
 
   const handleClose = () => {
@@ -29,7 +29,7 @@ export default function FullScreenMenu({ onClose }: FullScreenMenuProps) {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.3 }}
-      className="fixed inset-0 bg-gradient-to-br from-black/95 via-purple-900/20 to-pink-900/10 backdrop-blur-xl z-50 overflow-hidden"
+      className="fixed inset-0 bg-gradient-to-br from-black/98 via-purple-900/10 to-pink-900/5 backdrop-blur-xl z-50 overflow-hidden"
       onClick={handleClose}
     >
       {/* Close Button */}
@@ -64,7 +64,7 @@ export default function FullScreenMenu({ onClose }: FullScreenMenuProps) {
         </motion.div>
 
         {/* Navigation centered */}
-        <nav className="text-center space-y-4 md:space-y-6 flex-1 flex flex-col justify-center">
+        <nav className="text-center space-y-6 md:space-y-8 flex-1 flex flex-col justify-center">
           {menuItems.map((item, index) => (
             <motion.div
               key={item.name}
@@ -76,7 +76,8 @@ export default function FullScreenMenu({ onClose }: FullScreenMenuProps) {
               <Link
                 href={item.href}
                 onClick={handleClose}
-                className="text-white text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-extralight hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-pink-400 hover:to-purple-400 transition-all duration-300 tracking-[0.2em] uppercase relative inline-block cursor-pointer hover:scale-110 transform-gpu"
+                className="text-white/95 text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-thin hover:text-white hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-pink-400 hover:to-purple-400 transition-all duration-300 tracking-[0.2em] uppercase relative inline-block cursor-pointer hover:scale-110 transform-gpu"
+                style={{ fontFamily: "var(--font-poiret-one)" }}
               >
                 {item.name}
               </Link>

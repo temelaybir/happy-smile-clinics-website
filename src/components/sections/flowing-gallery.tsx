@@ -56,7 +56,7 @@ export default function FlowingGallery() {
           viewport={{ once: true }}
           className="text-center mb-8 md:mb-16"
         >
-          <h2 className="text-3xl md:text-6xl font-light text-white mb-3 md:mb-4">
+          <h2 className="text-3xl md:text-6xl font-light text-white/90 mb-3 md:mb-4">
             Happy Smiles
           </h2>
           <div className="w-24 h-px bg-gradient-to-r from-transparent via-white to-transparent mx-auto"></div>
