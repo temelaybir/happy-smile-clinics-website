@@ -4,12 +4,13 @@ import { loadPages, savePages } from '@/lib/file-storage'
 // GET single page
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const resolvedParams = await params
   try {
     // Get from file storage
     const pagesData = await loadPages()
-    const page = pagesData[params.id]
+    const page = pagesData[resolvedParams.id]
 
     if (!page) {
       return NextResponse.json(
@@ -30,8 +31,9 @@ export async function GET(
 // PUT update page
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const resolvedParams = await params
   try {
     const data = await request.json()
     const userId = request.headers.get('x-user-id') || 'admin-user'
@@ -41,7 +43,7 @@ export async function PUT(
 
     // Store the updated page
     const updatedPage = {
-      id: params.id,
+      id: resolvedParams.id,
       slug: data.slug,
       title: data.title,
       description: data.description || '',
@@ -57,10 +59,10 @@ export async function PUT(
     }
 
     // Store in file
-    pagesData[params.id] = updatedPage
+    pagesData[resolvedParams.id] = updatedPage
     await savePages(pagesData)
 
-    console.log('Page updated successfully:', params.id)
+    console.log('Page updated successfully:', resolvedParams.id)
 
     return NextResponse.json(updatedPage)
   } catch (error: any) {
@@ -83,14 +85,15 @@ export async function PUT(
 // DELETE page
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const resolvedParams = await params
   try {
     // Load existing pages
     const pagesData = await loadPages()
     
     // Delete from storage
-    delete pagesData[params.id]
+    delete pagesData[resolvedParams.id]
     
     // Save updated data
     await savePages(pagesData)
