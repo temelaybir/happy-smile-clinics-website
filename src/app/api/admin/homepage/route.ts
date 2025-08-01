@@ -96,7 +96,3 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// Export content for use in other parts of the app
-export function getHomepageContent() {
-  return homepageContent
-}
